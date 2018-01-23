@@ -44,8 +44,13 @@ public class YouTubeView extends FrameLayout {
     @Override
     protected void onAttachedToWindow() {
         if (!mHasSavedInstance) {
+            if(getReactContext().getCurrentActivity().findViewById(getId()) == null){
+                return;
+            }
             FragmentManager fragmentManager = getReactContext().getCurrentActivity().getFragmentManager();
+
             fragmentManager.beginTransaction().add(getId(), mVideoFragment).commit();
+            fragmentManager.executePendingTransactions();
         }
         super.onAttachedToWindow();
     }
@@ -57,7 +62,7 @@ public class YouTubeView extends FrameLayout {
 
             // Code crashes with java.lang.IllegalStateException: Activity has been destroyed
             // if our activity has been destroyed when this runs
-            if (mVideoFragment != null) {
+            if (mVideoFragment != null  && mVideoFragment.isVisible()) {
                 boolean isDestroyed = false;
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
