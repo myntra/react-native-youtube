@@ -27,7 +27,7 @@ android {
 
     buildTypes {
         debug {}
-				qa {}
+	qa {}
         fox {}
         release {
             minifyEnabled false
